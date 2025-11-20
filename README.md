@@ -137,34 +137,52 @@ Contribute → Streak Increases → Avatar Celebrates → SBT Earned
 ### System Overview
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    VisionMe Frontend (React)                │
-│                                                             │
-└────────────┬────────────────────────────────┬───────────────┘
-             │                                │
-             ▼                                ▼
-    ┌────────────────┐              ┌──────────────────┐
-    │ Social Wallet  │              │  Backend APIs    │
-    │      SDK       │              │  (Next.js +      │
-    │                │              │   Supabase)      │
-    └────────┬───────┘              └────────┬─────────┘
-             │                               │
-             ▼                               ▼
-    ┌────────────────┐              ┌──────────────────┐
-    │  Stellar       │              │   Supabase       │
-    │  Social        │              │   Postgres       │
-    │  Account       │              │                  │
-    └────────────────┘              └──────────────────┘
-             │
-             │
-             ▼
-    ┌─────────────────────────────────────────────────┐
-    │          Stellar Testnet                        │
-    │  ┌─────────────────┐  ┌──────────────────┐      │
-    │  │ PocketContract  │  │  SBTContract     │      │
-    │  │   (Soroban)     │  │   (Soroban)      │      │
-    │  └─────────────────┘  └──────────────────┘      │
-    └─────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│                      Frontend (React/Next.js)                   │
+│  • Crossmint Social Wallet UI                                    │
+│  • Avatar visualization                                          │
+│  • Pocket CRUD, Deposit flow                                     │
+│  • Streak & SBT display                                          │
+└────────────────┬─────────────────────────────────┬───────────────┘
+                 │                                 │
+        ┌────────▼──────────┐           ┌─────────▼──────────┐
+        │  Crossmint SDK    │           │  Backend API       │
+        │  (Social Wallet)  │           │  (Express/Next.js) │
+        │                   │           │                    │
+        │ • Auth            │           │ • REST endpoints   │
+        │ • Transaction     │           │ • Business logic   │
+        │   signing         │           │ • Soroswap svc     │
+        │ • Account         │           │ • PocketContract   │
+        └────────┬──────────┘           │ • SBTContract      │
+                 │                      │ • Streak engine    │
+                 │                      └─────────┬──────────┘
+                 │                                │
+        ┌────────▼────────────────────────────────▼──────────┐
+        │               Stellar Testnet                      │
+        │                                                    │
+        │  ┌─────────────────────┐  ┌──────────────────┐     │
+        │  │  PocketContract     │  │ SBTContract      │     │
+        │  │  (Soroban)          │  │ (Soroban)        │     │
+        │  │                     │  │                  │     │
+        │  │ • create_pocket     │  │ • mint           │     │
+        │  │ • deposit           │  │ • has_sbt        │     │
+        │  │ • withdraw          │  │ • update_admin   │     │
+        │  │ • get_pocket        │  │                  │     │
+        │  └─────────────────────┘  └──────────────────┘     │
+        │                                                    │
+        │  Horizon API (read-only state)                     │
+        │  Soroswap Router (liquidity pools)                 │
+        └────────────────────────────────────────────────────┘
+                 │
+        ┌────────▼──────────────┐
+        │  Supabase PostgreSQL  │
+        │                       │
+        │ • users               │
+        │ • pockets             │
+        │ • deposits            │
+        │ • streaks             │
+        │ • sbt_status          │
+        └───────────────────────┘
 ```
 
 ### Component Responsibilities
